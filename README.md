@@ -21,24 +21,6 @@ A full-stack ToDo List application built using:
 
 ---
 
-## 🏗️ Project Structure
-
-ToDoList/
-│
-├── backend/
-│ ├── app.py
-│ ├── todos.json
-│
-├── frontend/
-│ ├── src/
-│ ├── public/
-│ ├── build/
-│
-└── README.md
-
-
----
-
 ## ▶️ Run the Project (Single Command)
 
 Inside project folder:
