@@ -1,18 +1,42 @@
 from flask import Flask, jsonify, request, send_from_directory
 import os
+import json
 
 # Point Flask to the React build folder
 app = Flask(
     __name__,
-    static_folder="../frontend/build",   # path from backend/ to build/
+    static_folder="../frontend/build",
     static_url_path="/"
 )
 
+DATA_FILE = "todos.json"
+
+
 # ------------------------
-# In-memory todo storage
+# Load / Save Functions
 # ------------------------
-todos = []
-next_id = 1
+
+def load_todos():
+    if os.path.exists(DATA_FILE):
+        try:
+            with open(DATA_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            return []
+    return []
+
+
+def save_todos(todos):
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(todos, f, indent=2)
+
+
+# ------------------------
+# Persistent todo storage
+# ------------------------
+
+todos = load_todos()
+next_id = max([t["id"] for t in todos], default=0) + 1
 
 
 # ------------------------
@@ -43,6 +67,7 @@ def add_todo():
     }
     todos.append(todo)
     next_id += 1
+    save_todos(todos)   # ✅ save after adding
     return jsonify(todo), 201
 
 
@@ -51,6 +76,7 @@ def toggle_todo(todo_id):
     for todo in todos:
         if todo["id"] == todo_id:
             todo["done"] = not todo["done"]
+            save_todos(todos)   # ✅ save after update
             return jsonify(todo)
     return jsonify({"error": "Not found"}), 404
 
@@ -59,6 +85,7 @@ def toggle_todo(todo_id):
 def delete_todo(todo_id):
     global todos
     todos = [t for t in todos if t["id"] != todo_id]
+    save_todos(todos)   # ✅ save after delete
     return jsonify({"ok": True})
 
 
@@ -69,21 +96,14 @@ def delete_todo(todo_id):
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def serve_react(path):
-    """
-    Serve the React build files.
-    Any unknown route -> index.html (so React router works).
-    """
     build_dir = app.static_folder
-
-    # If the requested file exists (e.g. /static/js/main.js), serve it
     full_path = os.path.join(build_dir, path)
+
     if path != "" and os.path.exists(full_path):
         return send_from_directory(build_dir, path)
 
-    # Otherwise, serve index.html (the React SPA)
     return send_from_directory(build_dir, "index.html")
 
 
 if __name__ == "__main__":
-    # debug=True for development; use False for final demo if you like
     app.run(debug=True)
