@@ -1,0 +1,58 @@
+[
+  {
+    "id": 2,
+    "text": "Build a To-Do app",
+    "done": false,
+    "date": "",
+    "time": ""
+  },
+  {
+    "id": 3,
+    "text": "learn react",
+    "done": false,
+    "date": "",
+    "time": ""
+  },
+  {
+    "id": 5,
+    "text": "Read Book",
+    "done": false,
+    "date": "2025-11-25",
+    "time": "19:15"
+  },
+  {
+    "id": 6,
+    "text": "Read for Lab Test",
+    "done": false,
+    "date": "2025-12-29",
+    "time": "10:00"
+  },
+  {
+    "id": 7,
+    "text": "Watch movie",
+    "done": false,
+    "date": "2025-11-25",
+    "time": "16:00"
+  },
+  {
+    "id": 8,
+    "text": "Sleep",
+    "done": false,
+    "date": "2025-11-25",
+    "time": "22:00"
+  },
+  {
+    "id": 10,
+    "text": "Call Mother",
+    "done": false,
+    "date": "2025-11-25",
+    "time": "20:00"
+  },
+  {
+    "id": 11,
+    "text": "Watch Phone",
+    "done": false,
+    "date": "2025-11-25",
+    "time": "09:30"
+  }
+]
